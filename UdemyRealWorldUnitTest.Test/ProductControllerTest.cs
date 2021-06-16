@@ -37,5 +37,19 @@ namespace UdemyRealWorldUnitTest.Test
 
             Assert.IsType<ViewResult>(result);
         }
+
+        [Fact]
+        public async void Index_ActionExecutes_ReturnProductList()
+        {
+            _mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(products);
+
+            var result = await _controller.Index();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            var productList = Assert.IsAssignableFrom<IEnumerable<Product>>(viewResult.Model);
+
+            Assert.Equal<int>(2, productList.Count());
+        }
     }
 }
