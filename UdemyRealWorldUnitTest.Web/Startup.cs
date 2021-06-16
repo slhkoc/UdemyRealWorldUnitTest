@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UdemyRealWorldUnitTest.Web.Models;
+using UdemyRealWorldUnitTest.Web.Repository;
 
 namespace UdemyRealWorldUnitTest.Web
 {
@@ -25,6 +26,8 @@ namespace UdemyRealWorldUnitTest.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
             services.AddDbContext<UdemyUnitTestDBContext>(option =>
             {
                 option.UseSqlServer(Configuration["SqlConStr"]);
