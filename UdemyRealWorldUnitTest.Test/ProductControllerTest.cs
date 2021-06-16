@@ -101,5 +101,17 @@ namespace UdemyRealWorldUnitTest.Test
             var result = _controller.Create();
             Assert.IsType<ViewResult>(result);
         }
+
+        [Fact]
+        public async void Create_InValidModelState_ReturnView()
+        {
+            _controller.ModelState.AddModelError("Name", "Name alanı gereklidir");
+
+            var result = await _controller.Create(products.First());
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            Assert.IsType<Product>(viewResult.Model);
+        }
     }
 }
