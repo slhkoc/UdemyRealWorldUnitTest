@@ -35,7 +35,7 @@ namespace UdemyRealWorldUnitTest.Test
         {
             _mockRepo.Setup(x => x.GetAll()).ReturnsAsync(products);
 
-            var result =await _controller.GetProducts();
+            var result = await _controller.GetProducts();
 
             var okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -52,7 +52,7 @@ namespace UdemyRealWorldUnitTest.Test
 
             _mockRepo.Setup(x => x.GetById(productId)).ReturnsAsync(product);
 
-            var result =await _controller.GetProduct(productId);
+            var result = await _controller.GetProduct(productId);
 
             Assert.IsType<NotFoundResult>(result);
 
@@ -75,6 +75,21 @@ namespace UdemyRealWorldUnitTest.Test
 
             Assert.Equal(productId, returnProduct.Id);
             Assert.Equal(product.Name, returnProduct.Name);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        public void PutProduct_IdIsNotEqualProduct_ReturnBadRequestResult(int productId)
+        {
+            var product = products.First(x => x.Id == productId);
+
+            var result = _controller.PutProduct(2, product);
+
+            var badRequestResult = Assert.IsType<BadRequestResult>(result);
+
+           
+
+
         }
     }
 }
