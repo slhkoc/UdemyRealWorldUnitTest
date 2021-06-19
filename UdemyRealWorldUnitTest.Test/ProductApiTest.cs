@@ -104,5 +104,21 @@ namespace UdemyRealWorldUnitTest.Test
             Assert.IsType<NoContentResult>(result);
 
         }
+
+        [Fact]
+        public async void PostProduct_ActionExecutes_ReturnCreatedAction()
+        {
+            var product = products.First();
+
+            _mockRepo.Setup(x => x.Create(product)).Returns(Task.CompletedTask);
+
+            var result = await _controller.PostProduct(product);
+
+            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
+
+            _mockRepo.Verify(x => x.Create(product), Times.Once);
+
+            Assert.Equal("GetProduct", createdAtActionResult.ActionName);
+        }
     }
 }
